@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomReservation.WebApp", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomReservation.Lib", "RoomReservation.Lib\RoomReservation.Lib.csproj", "{7FABC948-102D-4751-8D57-20297F355DCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomReservation.Lib.UnitTests", "RoomReservation.Lib.UnitTests\RoomReservation.Lib.UnitTests.csproj", "{067456C0-086C-46A8-B37F-1405717B7BFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomReservation.Lib.Tests", "RoomReservation.Lib.UnitTests\RoomReservation.Lib.Tests.csproj", "{067456C0-086C-46A8-B37F-1405717B7BFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomReservation.WebApp.UnitTests", "RoomReservation.WebApp.UnitTests\RoomReservation.WebApp.UnitTests.csproj", "{E838AA1A-2006-4513-ABFD-407F380DAA88}"
 EndProject
