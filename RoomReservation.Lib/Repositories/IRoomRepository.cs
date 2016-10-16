@@ -12,5 +12,6 @@ namespace RoomReservation.Lib.Repositories
         IEnumerable<Room> GetRoomList();
         IEnumerable<BookingSchedule> GetRoomBookings(int roomId, DateTime date);
         void BookRoom(BookingSchedule bookingSchedule);
+        void RemoveBooking(int bookingId);
     }
 }

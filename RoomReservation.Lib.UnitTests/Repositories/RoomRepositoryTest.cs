@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Dynamic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
 using RoomReservation.Lib.Model;
 using RoomReservation.Lib.Repositories;
 
-namespace RoomReservation.Lib.UnitTests.Repositories
+namespace RoomReservation.Lib.Tests.Repositories
 {
     [TestFixture]
     public class RoomRepositoryTest
@@ -123,10 +118,42 @@ namespace RoomReservation.Lib.UnitTests.Repositories
                 Room = new Room(),
                 Person = new Person()
             };
-            var mockContext = new Mock<IBookingContext>();
+            var mockBookingScheduleSet = new Mock<DbSet<BookingSchedule>>();
+            var mockContext = new Mock<BookingContext>();
+            mockContext.Setup(x => x.BookingSchedules).Returns(mockBookingScheduleSet.Object);
             var repository = new RoomRepository(mockContext.Object);
+
             repository.BookRoom(bookingSchedule);
-            Assert.That(mockContext.Object.BookingSchedules.First(), Is.EqualTo(bookingSchedule));
+
+            // Though it's not recommended to assert against more than 1 mock object
+            // here we have to do so as we need to make sure both Add() and SaveChanges() methods
+            // are called
+            mockBookingScheduleSet.Verify(b => b.Add(It.IsAny<BookingSchedule>()), Times.Once());
+            mockContext.Verify(ctx => ctx.SaveChanges(), Times.Once());
+        }
+
+        [Test]
+        public void RemoveBooking_SavesToContext()
+        {
+            var bookingSchedule = new BookingSchedule()
+            {
+                Id = 1,
+                StartTime = new DateTime(2016, 5, 5),
+                RoomId = 1,
+                DurationInMinuts = 30,
+                PersonId = 1,
+                Room = new Room(),
+                Person = new Person()
+            };
+            var mockBookingScheduleSet = new Mock<DbSet<BookingSchedule>>();
+            var mockContext = new Mock<BookingContext>();
+            mockContext.Setup(x => x.BookingSchedules).Returns(mockBookingScheduleSet.Object);
+            var repository = new RoomRepository(mockContext.Object);
+
+            repository.RemoveBooking(bookingSchedule.Id);
+
+            mockBookingScheduleSet.Verify(b => b.Remove(It.IsAny<BookingSchedule>()), Times.Once());
+            mockContext.Verify(ctx => ctx.SaveChanges(), Times.Once());
         }
     }
 }

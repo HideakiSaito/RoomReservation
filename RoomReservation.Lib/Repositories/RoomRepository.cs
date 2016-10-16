@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,15 @@ namespace RoomReservation.Lib.Repositories
         {
             var booking = _bookingContext.BookingSchedules.Create();
             _bookingContext.BookingSchedules.Add(booking);
+            _bookingContext.SaveChanges();
+        }
+
+        public void RemoveBooking(int bookingId)
+        {
+            var bookingSchedule = new BookingSchedule() { Id = bookingId };
+            _bookingContext.BookingSchedules.Attach(bookingSchedule);
+            _bookingContext.BookingSchedules.Remove(bookingSchedule);
+            _bookingContext.SaveChanges();
         }
     }
 }
